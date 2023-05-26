@@ -4,9 +4,6 @@ from .models import *
 router = Router()
 
 
-
-
-
 class UsersIn(Schema):
     login: str
     password: str
