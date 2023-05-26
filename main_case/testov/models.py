@@ -1,13 +1,13 @@
-
 from django.db import models
 from datetime import date
+
 class User(models.Model):
     login = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     age = models.IntegerField()
-    
+
     def __str__(self):
         return f"{self.id}) {self.login}"
     
