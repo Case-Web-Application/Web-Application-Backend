@@ -3,7 +3,6 @@ from .models import *
 
 router = Router()
 
-
 class UsersIn(Schema):
     login: str
     password: str
@@ -32,4 +31,3 @@ def get_users(request):
             "age": x.age
         })
     return response
-
