@@ -28,3 +28,7 @@ class TastsAdmin(admin.ModelAdmin):
 @admin.register(Attemption)
 class AttemptionsAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
+    pass
