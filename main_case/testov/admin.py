@@ -17,6 +17,10 @@ class ScalesAdmin(admin.ModelAdmin):
 class AnswersAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Questions)
+class QuestionssAdmin(admin.ModelAdmin):
+    pass
+
 @admin.register(SubTest)
 class SubTestAdmin(admin.ModelAdmin):
     pass

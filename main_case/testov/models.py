@@ -12,7 +12,6 @@ class User(models.Model):
     login = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
     last_name = models.CharField(max_length=255)
     age = models.IntegerField()
 
@@ -24,6 +23,7 @@ class Interpretations(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
     text = models.CharField(max_length=255)#Добавить html разметку + картинки
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='files/covers', null=True)
     count_s = models.IntegerField()
     count_f = models.IntegerField()

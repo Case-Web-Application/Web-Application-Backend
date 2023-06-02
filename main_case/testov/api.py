@@ -22,16 +22,16 @@ class AuthBearer(HttpBearer):
         return jwt.decode(token, key, algorithms="HS256")["id"]
 
 #http://127.0.0.1:8000/api/v1/createuser
-@router.post("/createuser")
-def create_users(request, payload: UsersIn):
+@router.post("/registration")
+def registration(request, payload: UsersIn):
     employee = User.objects.create(**payload.dict())
     return {"id": employee.id}
 
 #http://127.0.0.1:8000/api/v1/getusers
 @router.get("/getusers", auth=AuthBearer())
 def get_users(request):
-    id_user = request.auth
-    all_users = User.objects.filter(id = id_user)
+    #id_user = request.auth
+    all_users = User.objects.all()
     response = []
     for x in all_users:
         response.append({
@@ -41,5 +41,29 @@ def get_users(request):
             "first_name": x.first_name,
             "last_name": x.last_name,
             "age": x.age
+        })
+    return response
+
+@router.get("/GetTast")
+def get_tast(request):
+    all_tasts = Tast.objects.all()
+    response = []
+    for x in all_tasts:
+        response.append({
+            "id": x.pk,
+            "name": x.name,
+            "description_1": x.description_1,
+            "description_2": x.description_2,
+            "comments": x.comments,
+            "time": x.time,
+            "time_for_solve": x.time_for_solve,
+            "status": x.status,
+            "subtest": [f"Id: {x.subtest.id}", 
+                        f"Название: {x.subtest.name}", 
+                        f"Тема: {x.subtest.questions.name}",
+                        f"Вопрос: {x.subtest.questions.description}",
+                        f"Ответ: {x.subtest.questions.answers.name}",
+                        f"Описание: {x.subtest.questions.answers.description}",
+            ]
         })
     return response
