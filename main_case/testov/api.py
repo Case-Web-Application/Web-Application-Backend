@@ -59,11 +59,11 @@ def get_tast(request):
             "time_for_solve": x.time_for_solve,
             "status": x.status,
             "subtest": [f"Id: {x.subtest.id}", 
-                        f"Название: {x.subtest.name}", 
-                        f"Тема: {x.subtest.questions.name}",
-                        f"Вопрос: {x.subtest.questions.description}",
+                        f"Субтест: {x.subtest.name}", 
+                        f"Тема вопроса: {x.subtest.questions.name}",
+                        f"Вопрос: {[i.description for i in Questions.objects.all()]}",
                         f"Ответ: {x.subtest.questions.answers.name}",
-                        f"Описание: {x.subtest.questions.answers.description}",
+                        f"Описание ответа: {x.subtest.questions.answers.description}",
             ]
         })
     return response
