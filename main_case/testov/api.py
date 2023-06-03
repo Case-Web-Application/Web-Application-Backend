@@ -18,7 +18,7 @@ def create_users(request, payload: UsersIn):
     return {"id": employee.id}
 
 #http://127.0.0.1:8000/api/v1/getusers
-@router.get("/getusers")
+@router.get("/getuser")
 def get_users(request):
     all_users = User.objects.all()
     response = []
