@@ -32,6 +32,7 @@ class AuthBearer(HttpBearer):
         return jwt.decode(token, key, algorithms="HS256")["login"]
 
 
+#http://127.0.0.1:8000/api/v1/getusers
 @router.get("/getusers", auth=AuthBearer())
 def get_users(request):
     #id_user = request.auth
