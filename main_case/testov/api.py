@@ -4,9 +4,13 @@ from ninja.security import django_auth
 import jwt
 import base64
 from base64 import b64decode
-from jwt import decode
+from jwt import decode, encode
 from ninja.security import HttpBearer
+
+
 router = Router()
+key = "super-s3cr3t--pass$word"
+
 
 class UsersIn(Schema):
     login: str
@@ -15,19 +19,19 @@ class UsersIn(Schema):
     last_name: str
     age: int
 
-class AuthBearer(HttpBearer):
-    def authenticate(self, request, token):
-        key = "super-s3cr3t--pass$word"
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJsb2dpbiI6Ik1pa2UyMDA0IiwicGFzc3dvcmQiOiIxMjM0NTY3OCIsImZpcnN0X25hbWUiOiJNaWtoYWlsIiwibGFzdF9uYW1lIjoiTWFqb3JvdiIsImFnZSI6IjE4In0.lPCLFYeuPY8xC4AmULCBHqw_3ZJ_T-WYn67UWc8YcpA"
-        return jwt.decode(token, key, algorithms="HS256")["id"]
 
-#http://127.0.0.1:8000/api/v1/createuser
+
 @router.post("/registration")
 def registration(request, payload: UsersIn):
     employee = User.objects.create(**payload.dict())
-    return {"id": employee.id}
+    token = jwt.encode({"id": employee.id, "login": employee.login, "password": employee.password}, key, algorithm="HS256")
+    return f"{token}"
 
-#http://127.0.0.1:8000/api/v1/getusers
+class AuthBearer(HttpBearer):
+    def authenticate(self, request, token):
+        return jwt.decode(token, key, algorithms="HS256")["login"]
+
+
 @router.get("/getusers", auth=AuthBearer())
 def get_users(request):
     #id_user = request.auth
@@ -35,6 +39,7 @@ def get_users(request):
     response = []
     for x in all_users:
         response.append({
+            "Здравствуйте": request.auth,
             "id": x.pk,
             "login": x.login,
             "password": x.password,
@@ -44,12 +49,13 @@ def get_users(request):
         })
     return response
 
-@router.get("/GetTast")
+@router.get("/GetTast", auth=AuthBearer())
 def get_tast(request):
     all_tasts = Tast.objects.all()
     response = []
     for x in all_tasts:
         response.append({
+            f"Здравствуйте, {request.auth}"
             "id": x.pk,
             "name": x.name,
             "description_1": x.description_1,
