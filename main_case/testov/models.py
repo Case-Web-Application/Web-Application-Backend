@@ -24,10 +24,14 @@ class Interpretations(models.Model):
     queue = models.IntegerField()
     text = models.CharField(max_length=255)#Добавить html разметку + картинки
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
-    #image = models.ImageField(upload_to='files/covers', null=True)
+    image = models.ImageField(upload_to='files/covers', null=True)
     count_s = models.IntegerField()#20
     count_f = models.IntegerField()#40
     status = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.id}) {self.name}"
+    
 
 class Scales(models.Model):
     name = models.CharField(max_length=255)
@@ -35,25 +39,34 @@ class Scales(models.Model):
     description = models.CharField(max_length=255)#Добавить html разметку + картинки
     interpretation = models.ForeignKey(Interpretations, on_delete=models.CASCADE)
     status = models.CharField(max_length=255)
-
+    
+    def __str__(self):
+        return f"{self.id}) {self.name}"
+    
 class Answers(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
     description = models.CharField(max_length=255)#Добавить html разметку + картинки
-    scale = models.ForeignKey(Scales, on_delete=models.CASCADE)
+    #scale = models.ForeignKey(Scales, on_delete=models.CASCADE)
     count_of_scale = models.IntegerField()
-    right = models.IntegerField()
+    right = models.BooleanField()
     status = models.CharField(max_length=255) 
 
+    def __str__(self):
+        return f"{self.id}) {self.name}"
+    
 class Questions(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
     type = models.CharField(max_length=255)
     description = models.CharField(max_length=255)#Добавить html разметку + картинки
-    obligatory = models.IntegerField()
-    mixq = models.IntegerField()
+    obligatory = models.BooleanField()
+    mixq = models.BooleanField()
     status = models.CharField(max_length=255)
-    answers = models.ForeignKey(Answers, on_delete=models.CASCADE)
+    answers = models.ForeignKey(Answers, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{self.id}) {self.name}"
 
 class SubTest(models.Model):
     name = models.CharField(max_length=255)
@@ -65,6 +78,9 @@ class SubTest(models.Model):
     status = models.CharField(max_length=255)
     questions = models.ForeignKey(Questions, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.id}) {self.name}"
+
 class Tast(models.Model):
     name = models.CharField(max_length=255)
     description_1 = models.CharField(max_length=255)
@@ -74,6 +90,9 @@ class Tast(models.Model):
     time_for_solve = models.IntegerField()
     status = models.CharField(max_length=255)
     subtest = models.ForeignKey(SubTest, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.id}) {self.name}"
 
 class Attemption(models.Model):
     number = models.IntegerField()
@@ -86,3 +105,6 @@ class Attemption(models.Model):
     answers = models.OneToOneField(Answers, on_delete=models.CASCADE)
     scale = models.OneToOneField(Scales, on_delete=models.CASCADE)
     interpretation = models.OneToOneField(Interpretations, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.id}"
