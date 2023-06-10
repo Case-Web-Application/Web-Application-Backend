@@ -13,11 +13,19 @@ class User(models.Model):
     password = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    number = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255)
     age = models.IntegerField()
 
     def __str__(self):
         return f"{self.id}) {self.login}"
     
+class Tokens(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    token1 = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.id}"
 
 class Interpretations(models.Model):
     name = models.CharField(max_length=255)
@@ -32,7 +40,6 @@ class Interpretations(models.Model):
     def __str__(self):
         return f"{self.id}) {self.name}"
     
-
 class Scales(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()

@@ -6,26 +6,52 @@ import base64
 from base64 import b64decode
 from jwt import decode, encode
 from ninja.security import HttpBearer
-from typing import List
+from typing import *
 from django.shortcuts import get_object_or_404
 
 router = Router()
 key = "super-s3cr3t--pass$word"
 
 
+""" class ImageIn(Schema):
+    title: str
+    image: str
+
+@router.post("/make_img")
+def make_images(request, payload: ImageIn):
+    employee = Image.objects.create(**payload.dict())
+    return f"{employee.image}"
+ """
+
 class UsersIn(Schema):
     login: str
     password: str
     first_name: str
     last_name: str
+    number: str
+    email: str
     age: int
 
+class RegisIn(Schema):
+    login: str
+    password: str
+    first_name: str
+    last_name: str
+    number: str
+    email: str
+    age: int
 
 @router.post("/registration")
-def registration(request, payload: UsersIn):
+def registration(request, payload: RegisIn):
     employee = User.objects.create(**payload.dict())
-    token = jwt.encode({"id": employee.id, "login": employee.login, "password": employee.password}, key, algorithm="HS256")
+    token = jwt.encode({
+                        "login": employee.login, 
+                        "password": employee.password,
+                        "number": employee.number,
+                        "email": employee.email}, key, algorithm="HS256")
+    tokens_create = Tokens.objects.create(user_id = employee.id, token1 = token)
     return f"{token}"
+
 
 class AuthBearer(HttpBearer):
     def authenticate(self, request, token):
@@ -45,7 +71,7 @@ def questions(request, payload: QuestionIn):
             status = payload.status,
             answers = anwsers
         )
-    return f"ID вопроса - {employee.id}" """
+    return f"ID вопроса - {employee.id}"
 
 @router.get("/getans")
 def get_ans(request):
@@ -70,7 +96,7 @@ def get_ans(request):
     return f"{ans}"
 
 @router.get("/getquest")
-def get_users(request):
+def get_user(request):
     all_quest = Questions.objects.all()
     response = []
     for x in all_quest:
@@ -130,27 +156,6 @@ def get_tast(request):
         })
     return response
 
-""" class Answers(models.Model):
-    name = models.CharField(max_length=255)
-    queue = models.IntegerField()
-    description = models.CharField(max_length=255)#Добавить html разметку + картинки
-    #scale = models.ForeignKey(Scales, on_delete=models.CASCADE)
-    count_of_scale = models.IntegerField()
-    right = models.BooleanField()
-    status = models.CharField(max_length=255) 
-
-    def __str__(self):
-        return f"{self.id}) {self.name}"
-    
-class Questions(models.Model):
-    name = models.CharField(max_length=255)
-    queue = models.IntegerField()
-    type = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)#Добавить html разметку + картинки
-    obligatory = models.BooleanField()
-    mixq = models.BooleanField()
-    status = models.CharField(max_length=255)
-    answers = models.ForeignKey(Answers, on_delete=models.CASCADE, null=True) """
 
 class AnswersIn(Schema):
     name: str
@@ -170,9 +175,20 @@ class QuestionIn(Schema):
     status: str
     answers_id: List[AnswersIn]
  
-  
 
-@router.post("/make_answer")
-def make_answers(request, payload: QuestionIn):
-    pass
+@router.post("/make_ans")
+def Make_ans(request, payload: AnswersIn, payload2: QuestionIn ):
+    ans_object = Answers.objects.create(**payload.dict())
+    Questions.objects.create(
+            name = payload2.name,
+            queue = payload2.queue,
+            type = payload2.type,
+            description = payload2.description,
+            obligatory = payload2.obligatory,
+            mixq = payload2.mixq,
+            status = payload2.status,
+            answers = ans_object
+        )
+    return {"status": 200}
 
+ 
