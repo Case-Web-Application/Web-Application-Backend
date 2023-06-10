@@ -31,7 +31,7 @@ class AuthBearer(HttpBearer):
     def authenticate(self, request, token):
         return jwt.decode(token, key, algorithms="HS256")["login"]
 
-@router.post("/make_quest")
+""" @router.post("/make_quest")
 def questions(request, payload: QuestionIn):
     for y in Answers.objects.all():
         anwsers = get_object_or_404(Answers, name=y.name)
@@ -45,7 +45,7 @@ def questions(request, payload: QuestionIn):
             status = payload.status,
             answers = anwsers
         )
-    return f"ID вопроса - {employee.id}"
+    return f"ID вопроса - {employee.id}" """
 
 @router.get("/getans")
 def get_ans(request):
