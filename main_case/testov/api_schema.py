@@ -1,5 +1,15 @@
 from typing import List
 from ninja import Schema
+
+class InterprIn(Schema):
+    name: str 
+    queue: int
+    text: str
+    image: str 
+    count_s: int
+    count_f: int
+    status: int
+    
 class UsersIn(Schema):
     login: str
     password: str

@@ -1,12 +1,5 @@
 from django.db import models
 from datetime import date
-
-class Image(models.Model):
-    title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='files/covers', null=True)
-
-    def __str__(self):
-        return f"{self.title}"
     
 class User(models.Model):
     login = models.CharField(max_length=255)
@@ -31,8 +24,7 @@ class Interpretations(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
     text = models.CharField(max_length=255)#Добавить html разметку + картинки
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
-    #image = models.ImageField(upload_to='files/covers', null=True)
+    image = models.ImageField(upload_to='files/covers', null=True)#http://127.0.0.1:8000/media/files/covers/природа_0If6dw5.jpg
     count_s = models.IntegerField()#20
     count_f = models.IntegerField()#40
     status = models.CharField(max_length=255)
