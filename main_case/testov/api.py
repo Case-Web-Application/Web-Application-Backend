@@ -12,6 +12,35 @@ from testov.api_schema import *
 router = Router()
 key = "super-s3cr3t--pass$word"
 
+
+""" class ImageIn(Schema):
+    title: str
+    image: str
+
+@router.post("/make_img")
+def make_images(request, payload: ImageIn):
+    employee = Image.objects.create(**payload.dict())
+    return f"{employee.image}"
+ """
+
+class UsersIn(Schema):
+    login: str
+    password: str
+    first_name: str
+    last_name: str
+    number: str
+    email: str
+    age: int
+
+class RegisIn(Schema):
+    login: str
+    password: str
+    first_name: str
+    last_name: str
+    number: str
+    email: str
+    age: int
+
 @router.post("/registration")
 def registration(request, payload: RegisIn):
     employee = User.objects.create(**payload.dict())
