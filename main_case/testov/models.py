@@ -32,7 +32,7 @@ class Interpretations(models.Model):
     queue = models.IntegerField()
     text = models.CharField(max_length=255)#Добавить html разметку + картинки
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='files/covers', null=True)
+    #image = models.ImageField(upload_to='files/covers', null=True)
     count_s = models.IntegerField()#20
     count_f = models.IntegerField()#40
     status = models.CharField(max_length=255)
