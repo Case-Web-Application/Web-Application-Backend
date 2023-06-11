@@ -6,40 +6,11 @@ import base64
 from base64 import b64decode
 from jwt import decode, encode
 from ninja.security import HttpBearer
-from typing import *
+from typing import List
 from django.shortcuts import get_object_or_404
-
+from testov.api_schema import *
 router = Router()
 key = "super-s3cr3t--pass$word"
-
-
-""" class ImageIn(Schema):
-    title: str
-    image: str
-
-@router.post("/make_img")
-def make_images(request, payload: ImageIn):
-    employee = Image.objects.create(**payload.dict())
-    return f"{employee.image}"
- """
-
-class UsersIn(Schema):
-    login: str
-    password: str
-    first_name: str
-    last_name: str
-    number: str
-    email: str
-    age: int
-
-class RegisIn(Schema):
-    login: str
-    password: str
-    first_name: str
-    last_name: str
-    number: str
-    email: str
-    age: int
 
 @router.post("/registration")
 def registration(request, payload: RegisIn):
@@ -52,12 +23,11 @@ def registration(request, payload: RegisIn):
     tokens_create = Tokens.objects.create(user_id = employee.id, token1 = token)
     return f"{token}"
 
-
 class AuthBearer(HttpBearer):
     def authenticate(self, request, token):
         return jwt.decode(token, key, algorithms="HS256")["login"]
 
-""" @router.post("/make_quest")
+@router.post("/make_quest")
 def questions(request, payload: QuestionIn):
     for y in Answers.objects.all():
         anwsers = get_object_or_404(Answers, name=y.name)
@@ -72,6 +42,8 @@ def questions(request, payload: QuestionIn):
             answers = anwsers
         )
     return f"ID вопроса - {employee.id}"
+    #Надо брать те ответы, у которых одинаковый айдишник вопроса
+    #Чтобы получить id вопроса, нужно 
 
 @router.get("/getans")
 def get_ans(request):
@@ -156,26 +128,6 @@ def get_tast(request):
         })
     return response
 
-
-class AnswersIn(Schema):
-    name: str
-    queue: int
-    description: str
-    count_of_scale: int
-    right: int
-    status: str  
-
-class QuestionIn(Schema):
-    name: str
-    queue: int
-    type: str
-    description: str
-    obligatory: int
-    mixq: int
-    status: str
-    answers_id: List[AnswersIn]
- 
-
 @router.post("/make_ans")
 def Make_ans(request, payload: AnswersIn, payload2: QuestionIn ):
     ans_object = Answers.objects.create(**payload.dict())
@@ -190,5 +142,3 @@ def Make_ans(request, payload: AnswersIn, payload2: QuestionIn ):
             answers = ans_object
         )
     return {"status": 200}
-
- 
