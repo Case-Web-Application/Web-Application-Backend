@@ -13,16 +13,6 @@ router = Router()
 key = "super-s3cr3t--pass$word"
 
 
-""" class ImageIn(Schema):
-    title: str
-    image: str
-
-@router.post("/make_img")
-def make_images(request, payload: ImageIn):
-    employee = Image.objects.create(**payload.dict())
-    return f"{employee.image}"
- """
-
 class UsersIn(Schema):
     login: str
     password: str
