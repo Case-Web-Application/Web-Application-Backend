@@ -28,10 +28,15 @@ def registration(request, payload: RegisIn):
 
 @router.post("/auth")
 def auth(request, payload: AuthIn):
-    users = User.objects.all()
-    for x in users:
-        
-        pass
+    users = User.objects.filter(login=payload.login, password=payload.password)
+    if len(list(users)) == 0:
+        return {"response": "Неверный логин или пароль"}
+    else:
+        token = jwt.encode({"login": payload.login, "password": payload.password}, 
+                           key, algorithm="HS256")
+        return {"token": f"{token}"}
+    
+
 @router.post("/make interpretation")
 def make_interpr(request, payload: InterprIn):
     interpr = Interpretations.objects.create(**payload.dict())
