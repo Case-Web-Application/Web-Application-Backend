@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import date
-    
+
+
 class User(models.Model):
     login = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
@@ -23,10 +24,10 @@ class Tokens(models.Model):
 class Interpretations(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
-    text = models.CharField(max_length=255)#Добавить html разметку + картинки
-    image = models.ImageField(upload_to='files/covers', null=True)#http://127.0.0.1:8000/media/files/covers/природа_0If6dw5.jpg
-    count_s = models.IntegerField()#20
-    count_f = models.IntegerField()#40
+    text = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='testov/static/img', null=True)
+    count_s = models.IntegerField()
+    count_f = models.IntegerField()
     status = models.CharField(max_length=255)
 
     def __str__(self):

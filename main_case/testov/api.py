@@ -19,8 +19,7 @@ class AuthBearer(HttpBearer):
 @router.post("/registration")
 def registration(request, payload: RegisIn):
     employee = User.objects.create(**payload.dict())
-    token = jwt.encode({"id": employee.id,
-                        "login": employee.login, 
+    token = jwt.encode({"login": employee.login, 
                         "password": employee.password,
                         "number": employee.number,
                         "email": employee.email}, 
@@ -28,7 +27,19 @@ def registration(request, payload: RegisIn):
     tokens_create = Tokens.objects.create(user_id = employee.id, token1 = token)
     return f"{token}"
 
+@router.post("/auth")
+def auth(request, payload: AuthIn):
+    users = User.objects.filter(login=payload.login, password=payload.password)
+    if len(list(users)) == 0:
+        return {"response": "Неверный логин или пароль"}
+    else:
+        token = jwt.encode({"login": payload.login, "password": payload.password}, 
+                           key, algorithm="HS256")
+        return {"token": f"{token}"}
+    
+
 @router.post("/make interpretation")
-def make_interpr(request, payload: InterprIn, file: UploadedFile = File()):
+def make_interpr(request, payload: InterprIn):
     interpr = Interpretations.objects.create(**payload.dict())
-    return f"{interpr.id}"
+    image = request.FILES['image']
+    return f"{interpr.id}" 

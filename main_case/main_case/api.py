@@ -1,5 +1,5 @@
 from ninja import NinjaAPI
-from testov.clear_api import router
+from testov.api import router
 
 api = NinjaAPI()
 

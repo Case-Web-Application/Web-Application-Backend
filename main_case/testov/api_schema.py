@@ -1,6 +1,11 @@
 from typing import List
 from ninja import Schema
 
+class AuthIn(Schema):
+    login: str
+    password: str
+
+
 class InterprIn(Schema):
     name: str 
     queue: int
