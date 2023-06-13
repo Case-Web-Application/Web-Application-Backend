@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from testov.api_schema import *
 from ninja.files import UploadedFile
 router = Router()
+
 key = "super-s3cr3t--pass$word"
 
 class AuthBearer(HttpBearer):
