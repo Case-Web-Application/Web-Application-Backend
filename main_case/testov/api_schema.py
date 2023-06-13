@@ -1,6 +1,6 @@
 from typing import List
 from ninja import Schema
-
+from datetime import *
 class AuthIn(Schema):
     login: str
     password: str
@@ -13,7 +13,13 @@ class InterprIn(Schema):
     image: str 
     count_s: int
     count_f: int
-    status: int
+    status: str
+
+class ScalesIn(Schema):
+    name: str
+    queue: int
+    description: str
+    status: str
     
 class UsersIn(Schema):
     login: str
@@ -49,4 +55,12 @@ class QuestionIn(Schema):
     obligatory: int
     mixq: int
     status: str
-    answers_id: List[AnswersIn]
+
+class SubTestIn(Schema):
+    name: str
+    description_1: str
+    description_2: str
+    comments: str
+    time: datetime
+    time_for_solve: int
+    status: str

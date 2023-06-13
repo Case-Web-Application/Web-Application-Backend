@@ -25,7 +25,7 @@ class Interpretations(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
     text = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='testov/static/img', null=True)
+    image = models.ImageField(upload_to='img/', null=True)
     count_s = models.IntegerField()
     count_f = models.IntegerField()
     status = models.CharField(max_length=255)
@@ -42,19 +42,7 @@ class Scales(models.Model):
     
     def __str__(self):
         return f"{self.id}) {self.name}"
-    
-class Answers(models.Model):
-    name = models.CharField(max_length=255)
-    queue = models.IntegerField()
-    description = models.CharField(max_length=255)#Добавить html разметку + картинки
-    #scale = models.ForeignKey(Scales, on_delete=models.CASCADE)
-    count_of_scale = models.IntegerField()
-    right = models.BooleanField()
-    status = models.CharField(max_length=255) 
 
-    def __str__(self):
-        return f"{self.id}) {self.name}"
-    
 class Questions(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
@@ -63,11 +51,25 @@ class Questions(models.Model):
     obligatory = models.BooleanField()
     mixq = models.BooleanField()
     status = models.CharField(max_length=255)
-    answers = models.ForeignKey(Answers, on_delete=models.CASCADE, null=True)
+    
+    def __str__(self):
+        return f"{self.id}) {self.name}"
+    
+
+class Answers(models.Model):
+    name = models.CharField(max_length=255)
+    queue = models.IntegerField()
+    description = models.CharField(max_length=255)#Добавить html разметку + картинки
+    scale = models.ForeignKey(Scales, on_delete=models.CASCADE)
+    count_of_scale = models.IntegerField()
+    right = models.BooleanField()
+    status = models.CharField(max_length=255) 
+    question = models.ForeignKey(Questions, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.id}) {self.name}"
 
+    
 class SubTest(models.Model):
     name = models.CharField(max_length=255)
     description_1 = models.CharField(max_length=255)
