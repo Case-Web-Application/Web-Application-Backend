@@ -37,9 +37,3 @@ def auth(request, payload: AuthIn):
                            key, algorithm="HS256")
         return {"token": f"{token}"}
     
-
-@router.post("/make interpretation")
-def make_interpr(request, payload: InterprIn):
-    interpr = Interpretations.objects.create(**payload.dict())
-    image = request.FILES['image']
-    return f"{interpr.id}" 
