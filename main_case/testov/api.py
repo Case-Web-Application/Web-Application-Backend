@@ -116,7 +116,7 @@ def make_question(request, payload: QuestionIn, img_name: str, subt_id: int):
     )
     return {"status": 200}
 
-""" @router.post("/make subtest")
+@router.post("/make subtest")
 def make_subtest(request, payload: SubTestIn, test_id: int):
     subtest = SubTest.objects.create(
         name = payload.name,
@@ -129,4 +129,12 @@ def make_subtest(request, payload: SubTestIn, test_id: int):
         test = Tast.objects.get(id = test_id)
     )
     return {'status': 200}
- """
+
+@router.get("/get_test")
+def get_test(request):
+    data = Interpretations.objects.all()
+    response = []
+    for x in data:
+        response.append({
+            'Test': x.scale.answers.question.subtest.test.name
+        })
