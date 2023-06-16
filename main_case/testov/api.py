@@ -54,7 +54,6 @@ def auth(request, payload: AuthIn):
         token = jwt.encode({"login": payload.login, "password": payload.password}, 
                            key, algorithm="HS256")
         return {"token": f"{token}"}
-    
 
 @router.post("/make interpretation")
 def make_interpr(request, payload: InterprIn):
