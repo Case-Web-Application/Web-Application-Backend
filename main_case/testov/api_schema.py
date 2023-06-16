@@ -1,14 +1,6 @@
 from typing import List
 from ninja import Schema
 
-class TestIn(Schema):
-    name: str
-    description_1: str
-    description_2: str
-    comments: str
-    time_for_solve: int
-    status: str
-
 class AuthIn(Schema):
     login: str
     password: str
@@ -63,11 +55,4 @@ class QuestionIn(Schema):
     obligatory: int
     mixq: int
     status: str
-
-class SubTestIn(Schema):
-    name: str
-    description_1: str
-    description_2: str
-    comments: str
-    time_for_solve: int
-    status: str
+    answers_id: List[AnswersIn]

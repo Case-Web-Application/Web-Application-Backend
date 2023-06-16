@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-5!hgx)l#ygk9r@mku4q=io_ubz+stodh0veu&#i(w1=7&!r+8k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.0.108', '172.22.138.155']
+ALLOWED_HOSTS = ['127.0.0.1','192.168.0.108', '172.22.138.155', '176.226.133.140']
 
 
 # Application definition
@@ -29,6 +29,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -39,6 +40,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'main_case.urls'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+    'http://192.168.0.108:8000/api/v1/registration'
+]
 
 TEMPLATES = [
     {
@@ -106,8 +112,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-""" MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') """
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
