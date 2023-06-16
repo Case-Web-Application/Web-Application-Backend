@@ -7,12 +7,16 @@ class User(models.Model):
     password = models.CharField(max_length=255)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    number = models.CharField(max_length=255)
+    number = models.IntegerField()
     email = models.EmailField(max_length=255)
     age = models.IntegerField()
 
     def __str__(self):
         return f"{self.id}) {self.login}"
+    
+class Images(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='img/', null=True)
     
 class Tokens(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -50,6 +54,7 @@ class Questions(models.Model):
     queue = models.IntegerField()
     type = models.CharField(max_length=255)
     description = models.CharField(max_length=255)#Добавить html разметку + картинки
+    image = models.ForeignKey(Images, on_delete=models.CASCADE)
     obligatory = models.BooleanField()
     mixq = models.BooleanField()
     status = models.CharField(max_length=255)
@@ -62,6 +67,7 @@ class Answers(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
     description = models.CharField(max_length=255)#Добавить html разметку + картинки
+    image = models.ForeignKey(Images, on_delete=models.CASCADE)
     count_of_scale = models.IntegerField()
     right = models.BooleanField()
     status = models.CharField(max_length=255) 
@@ -74,6 +80,7 @@ class Scales(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
     description = models.CharField(max_length=255)#Добавить html разметку + картинки
+    image = models.ForeignKey(Images, on_delete=models.CASCADE)
     status = models.CharField(max_length=255)
     answers = models.ForeignKey(Answers, on_delete=models.CASCADE)
 
@@ -84,7 +91,7 @@ class Interpretations(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
     text = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='img/', null=True)
+    image = models.ForeignKey(Images, on_delete=models.CASCADE)
     count_s = models.IntegerField()
     count_f = models.IntegerField()
     status = models.CharField(max_length=255)

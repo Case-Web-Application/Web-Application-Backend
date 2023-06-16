@@ -43,33 +43,57 @@ def registration(request, payload: RegisIn):
     tokens_create = Tokens.objects.create(user_id = employee.id, token1 = token)
     return f"{token}"
 
+@router.post("/make attemption")
+def make_attempt(request, payload: AtemptIn, 
+    user_id: int, test_id: int,
+    question_id: int, answers_id: int,
+    scale_id: int, interpretation_id: int):
+    attempt = Attemption.objects.create(
+        number = payload.number,
+        user = User.objects.get(id = user_id),
+        tast = Tast.objects.get(id = test_id),
+        question = Questions.objects.get(id = question_id),
+        answers = Answers.objects.get(id = answers_id),
+        scale = Scales.objects.get(id = scale_id),
+        interpretation = Interpretations.objects.get(id = interpretation_id)
+    )
+    return {'status': 200}
+
+
 @router.post("/make interpretation")
-def make_interpr(request, payload: InterprIn):
-    interpr = Interpretations.objects.create(**payload.dict())
+def make_interpr(request, payload: InterprIn, img_name: str, scale_id: int):
+    interpr = Interpretations.objects.create(
+        name = payload.name,
+        queue = payload.queue,
+        text = payload.text,
+        image = Images.objects.get(title = img_name),
+        count_s = payload.count_s,
+        count_f = payload.count_f,
+        status = payload.status,
+        scale = Scales.objects.get(id = scale_id)
+    )
     return {"status": 200}
 
+
 @router.post("/make scales")
-def make_scales(request, payload: ScalesIn, inter_id: int):
+def make_scales(request, payload: ScalesIn, ans_id: int, img_name: str):
     scale = Scales.objects.create(
         name = payload.name,
         queue = payload.queue,
         description = payload.description,
-        interpretation = Interpretations.objects.get(id = inter_id),
-        status = payload.status)
+        image = Images.objects.get(title = img_name),
+        status = payload.status,
+        answers = Answers.objects.get(id = ans_id)
+    )
     return {"status": 200}  
 
-@router.post("/make questions")
-def make_question(request, payload: QuestionIn):
-    question = Questions.objects.create(**payload.dict())
-    return {"status": 200}
-
 @router.post("/make answers")
-def make_answers(request, payload: AnswersIn, q_id: int, sc_id: int):
+def make_answers(request, payload: AnswersIn, q_id: int, img_name: str):
     answer = Answers.objects.create(
         name = payload.name,
         queue = payload.queue,
         description = payload.description,
-        scale = Scales.objects.get(id = sc_id),
+        image = Images.objects.get(title = img_name),
         count_of_scale = payload.count_of_scale,
         right = payload.right,
         status = payload.status,
@@ -77,8 +101,23 @@ def make_answers(request, payload: AnswersIn, q_id: int, sc_id: int):
     )
     return {"status": 200}
 
+@router.post("/make questions")
+def make_question(request, payload: QuestionIn, img_name: str, subt_id: int):
+    question = Questions.objects.create(
+        name = payload.name,
+        queue = payload.queue,
+        type = payload.type,
+        description = payload.description,
+        image = Images.objects.get(title = img_name),
+        obligatory = payload.obligatory,
+        mixq = payload.mixq,
+        status = payload.status,
+        subtest = SubTest.objects.get(id = subt_id)
+    )
+    return {"status": 200}
+
 @router.post("/make subtest")
-def make_subtest(request, payload: SubTestIn, quest_id: int):
+def make_subtest(request, payload: SubTestIn, test_id: int):
     subtest = SubTest.objects.create(
         name = payload.name,
         description_1 = payload.description_1,
@@ -87,7 +126,6 @@ def make_subtest(request, payload: SubTestIn, quest_id: int):
         time = payload.time,
         time_for_solve = payload.time_for_solve,
         status = payload.status,
-        questions = Questions.objects.get(id = quest_id)
+        test = Tast.objects.get(id = test_id)
     )
-
-
+    return {'status': 200}
