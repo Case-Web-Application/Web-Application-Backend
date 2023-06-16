@@ -1,16 +1,14 @@
 from typing import List
 from ninja import Schema
-
+from datetime import *
 class AuthIn(Schema):
     login: str
     password: str
-
 
 class InterprIn(Schema):
     name: str 
     queue: int
     text: str
-    image: str 
     count_s: int
     count_f: int
     status: str
