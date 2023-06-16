@@ -79,7 +79,7 @@ def make_answers(request, payload: AnswersIn, q_id: int, sc_id: int):
     )
     return {"status": 200}
 
-@router.post("/make subtest")
+""" @router.post("/make subtest")
 def make_subtest(request, payload: SubTestIn, quest_id: int):
     subtest = SubTest.objects.create(
         name = payload.name,
@@ -91,5 +91,5 @@ def make_subtest(request, payload: SubTestIn, quest_id: int):
         status = payload.status,
         questions = Questions.objects.get(id = quest_id)
     )
-
+ """
 
