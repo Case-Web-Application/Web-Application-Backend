@@ -57,7 +57,6 @@ def make_attempt(request, payload: AtemptIn,
     )
     return {'status': 200}
 
-
 @router.post("/make interpretation")
 def make_interpr(request, payload: InterprIn, img_name: str, scale_id: int):
     interpr = Interpretations.objects.create(
@@ -71,7 +70,6 @@ def make_interpr(request, payload: InterprIn, img_name: str, scale_id: int):
         scale = Scales.objects.get(id = scale_id)
     )
     return {"status": 200}
-
 
 @router.post("/make scales")
 def make_scales(request, payload: ScalesIn, ans_id: int, img_name: str):
@@ -134,16 +132,35 @@ def make_test(request, payload: TestIn):
     return {'status': 200}
 
 @router.get("/get test")
-def GetTests(request):
-    #data = Interpretations.objects.all()
+def GetTests(request, tast_id: int):
+    all_test = Tast.objects.filter(id = tast_id)
+    all_subtest = [i.name for i in SubTest.objects.filter(test_id = tast_id)]
+    all_subtest_id = [i.id for i in SubTest.objects.filter(test_id = tast_id)]
+    all_questions = [i.name for i in Questions.objects.filter(subtest_id__in = all_subtest_id)]
+    all_questions_id = [i.id for i in Questions.objects.filter(subtest_id__in = all_subtest_id)]
+    all_answers = [i.name for i in Answers.objects.filter(question_id__in = all_questions_id)]
+    all_answers_id = [i.id for i in Answers.objects.filter(question_id__in = all_questions_id)]
+    all_scales = set(i.name for i in Scales.objects.filter(answers_id__in = all_answers_id))
+    all_scales_id = set(i.id for i in Scales.objects.filter(answers_id__in = all_answers_id))
+    all_interpret = [i.name for i in Interpretations.objects.filter(scale_id__in = list(all_scales_id))]
     response = []
-    a = Tast.objects.get(id=1)
-    response.append({
-        'Test': a.name,
-        'Subtest': [i.name for i in SubTest.objects.filter(id = 1)],
-        'Questions': [i.name for i in Questions.objects.filter(subtest_id = 2)],
-        'Answers': [i.name for i in Answers.objects.filter(question_id = 3)],
-        'Scale': [i.name for i in Scales.objects.filter(answers_id = 6)],
-        'Interpretation': [i.name for i in Interpretations.objects.filter(scale_id = 6)]
-    })
+    for x in all_test:
+        response.append({
+            'Test': x.name,
+            'Subtest': all_subtest,
+            'Questions': all_questions,
+            'Answers': all_answers,
+            'Scales': list(all_scales),
+            'Interpretations': all_interpret
+        })
+    return {'status':response}
+
+@router.get("/get all test")
+def get_all_test(request):
+    all_test = Tast.objects.all()
+    response = []
+    for x in all_test:
+        response.append({
+            'Name':x.name
+        })
     return {'status':response}
