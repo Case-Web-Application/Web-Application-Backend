@@ -2,6 +2,15 @@ from typing import List
 from ninja import Schema
 from datetime import *
 
+class TestIn(Schema):
+    name: str
+    description_1: str
+    description_2: str
+    comments: str
+    #time: datetime
+    time_for_solve: int
+    status: str
+
 class AtemptIn(Schema):
     number: str
     date: datetime

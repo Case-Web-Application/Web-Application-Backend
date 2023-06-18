@@ -12,12 +12,6 @@ router = Router()
 
 key = "super-s3cr3t--pass$word"
 
-@router.delete("/delete_user")
-def delete_user(request):
-    users = User.objects.all()
-    users.delete()
-    return {"status":"200"}
-
 class AuthBearer(HttpBearer):
     def authenticate(self, request, token):
         return jwt.decode(token, key, algorithms="HS256")["login"]
@@ -34,14 +28,18 @@ def auth(request, payload: AuthIn):
 
 @router.post("/registration")
 def registration(request, payload: RegisIn):
-    employee = User.objects.create(**payload.dict())
-    token = jwt.encode({"login": employee.login, 
+    users = User.objects.filter(login=payload.login, email=payload.email)
+    if len(list(users)) != 0:
+        return {'response' : 'Пользователь с таким логином и почтой уже существует!'}
+    else:
+        employee = User.objects.create(**payload.dict())
+        token = jwt.encode({"login": employee.login, 
                         "password": employee.password,
                         "number": employee.number,
                         "email": employee.email}, 
                          key, algorithm="HS256")
-    tokens_create = Tokens.objects.create(user_id = employee.id, token1 = token)
-    return f"{token}"
+        tokens_create = Tokens.objects.create(user_id = employee.id, token1 = token)
+        return {'response' : token}
 
 @router.post("/make attemption")
 def make_attempt(request, payload: AtemptIn, 
@@ -129,4 +127,23 @@ def make_subtest(request, payload: SubTestIn, test_id: int):
         test = Tast.objects.get(id = test_id)
     )
     return {'status': 200}
- 
+
+@router.post("/make test")
+def make_test(request, payload: TestIn):
+    test = Tast.objects.create(**payload.dict())
+    return {'status': 200}
+
+@router.get("/get test")
+def GetTests(request):
+    #data = Interpretations.objects.all()
+    response = []
+    a = Tast.objects.get(id=1)
+    response.append({
+        'Test': a.name,
+        'Subtest': [i.name for i in SubTest.objects.filter(id = 1)],
+        'Questions': [i.name for i in Questions.objects.filter(subtest_id = 2)],
+        'Answers': [i.name for i in Answers.objects.filter(question_id = 3)],
+        'Scale': [i.name for i in Scales.objects.filter(answers_id = 6)],
+        'Interpretation': [i.name for i in Interpretations.objects.filter(scale_id = 6)]
+    })
+    return {'status':response}
