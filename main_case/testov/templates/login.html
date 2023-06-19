@@ -29,50 +29,19 @@
                 <img src="{% static 'img/search.png' %}" alt="">
               </div>
             </header>
-            <div class="content">
-              <div class="leftside">
-                  <h1 id="text">Выбери и пройди тестирование</h1>
-                  <h3>Авторизируйтесь на платформе, чтобы проходить тесты</h3>
-                <div class="loginbtns">
-                  <a href="login.html"><div class="btn">Войти</div></a>
-                  <a href="signup.html">ЗАРЕГИСТРИРОВАТЬСЯ</a>
-                </div>
-              </div>
-              <div class="rightside">
-                <img src="{% static 'img/main_image.png' %}" alt="">
-                <img src="{% static 'img/wheel.png' %}" id="wheel">
+            <div class="content-vertical">
+              <h4>Войдите в свой профиль</h4>
+              <div class="block">
+                <h4>Вход</h4>
+                <form class="" action="index.html" method="post" placeholder="Email">
+                  <input type="email" name="" value=""placeholder="Email">
+                  <input type="password" name="" value="" placeholder="*********">
+                  <button type="submit" name="button">Войти</button>
+                  <a href="signup.html"><h5>РЕГИСТРАЦИЯ</h5></a>
+                  <h6 class="acception">Регистрируясь, вы соглашаетесь с пользовательским соглашением и даете согласине на обработку персональных данных.</h6>
+                </form>
               </div>
             </div>
         </div>
     </body>
 </html>
-<script>
-function appearText() {
-  var text = document.getElementById('text').innerHTML;
-  var i = 0;
-  document.getElementById('text').innerHTML = '';
-
-  function addLetter() {
-    if (i < text.length) {
-      document.getElementById('text').innerHTML += text.charAt(i);
-      i++;
-      setTimeout(addLetter, 100); // задержка в 100 миллисекунд между каждым символом
-    }
-  }
-
-  addLetter();
-}
-
-window.onload = function () {
-  appearText();
-};
-
-const image = document.getElementById('wheel');
-let angle = 0;
-
-setInterval(function() {
-  angle += 5;
-  image.style.transform = `rotate(${angle}deg)`;
-}, 50);
-
-</script>
