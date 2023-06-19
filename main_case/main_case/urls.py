@@ -10,7 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', api.urls),
     path('login/', login, name='login'),
-    path('', signup, name='signup'),
+    path('', index, name='index'),
     
 ]
 
