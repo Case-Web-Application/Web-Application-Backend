@@ -53,7 +53,7 @@ class Questions(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
     type = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)#Добавить html разметку + картинки
+    description = models.CharField(max_length=255)
     image = models.ForeignKey(Images, on_delete=models.CASCADE)
     obligatory = models.BooleanField()
     mixq = models.BooleanField()
@@ -66,7 +66,7 @@ class Questions(models.Model):
 class Answers(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
-    description = models.CharField(max_length=255)#Добавить html разметку + картинки
+    description = models.CharField(max_length=255)
     image = models.ForeignKey(Images, on_delete=models.CASCADE)
     count_of_scale = models.IntegerField()
     right = models.BooleanField()
@@ -79,7 +79,7 @@ class Answers(models.Model):
 class Scales(models.Model):
     name = models.CharField(max_length=255)
     queue = models.IntegerField()
-    description = models.CharField(max_length=255)#Добавить html разметку + картинки
+    description = models.CharField(max_length=255)
     image = models.ForeignKey(Images, on_delete=models.CASCADE)
     status = models.CharField(max_length=255)
     answers = models.ForeignKey(Answers, on_delete=models.CASCADE)
@@ -105,7 +105,7 @@ class Attemption(models.Model):
     number = models.IntegerField()
     date = models.DateField(default=date.today)
     time_s = models.DateTimeField(auto_now=True)
-    #time_f = models.DateTimeField(auto_now=True) Тригеррится при ответе на последний вопрос
+    time_f = models.DateTimeField(auto_now=True) 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     tast = models.OneToOneField(Tast, on_delete=models.CASCADE)
     question = models.OneToOneField(Questions, on_delete=models.CASCADE)

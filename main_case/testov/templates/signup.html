@@ -1,22 +1,23 @@
+{% load static %}
 <html lang="ru" dir="ltr">
     <head>
         <meta charset="utf-8">
         <title>ProTest - Фигач тесты, как не в себя!</title>
-        <link rel="stylesheet" href="style.css">
+        <link href="{% static 'testov/style.css' %}" rel="stylesheet">
     </head>
     <body>
         <div class="sidebar">
             <div class="menu">
               <div><div class="avatar">
-                  <img src="img/avatar.png" alt="">
+                  <img src="{% static 'img/avatar.png' %}" alt="">
               </div>
               <div class="menubtns">
-                  <div><img src="img/home.png"><p class="menu_name choosen">Главная</p></div>
-                  <div><img src="img/profile.png"><p class="menu_name">Кабинет</p></div>
-                  <div><img src="img/settings.png"><p class="menu_name">Настройки</p></div>
+                  <div><img src="{% static 'img/home.png' %}"><p class="menu_name choosen">Главная</p></div>
+                  <div><img src="{% static 'img/profile.png' %}"><p class="menu_name">Кабинет</p></div>
+                  <div><img src="{% static 'img/settings.png' %}"><p class="menu_name">Настройки</p></div>
               </div></div>
               <div class="menubtns">
-                  <div><img src="img/logout.png"><p>Выйти</p></div>
+                  <div><img src="{% static 'img/logout.png' %}"><p>Выйти</p></div>
               </div>
             </div>
         </div>
@@ -25,14 +26,14 @@
               <h3>ProTest</h3>
               <div id="search">
                 <input type="text" name="" value="" placeholder="Поиск">
-                <img src="img/search.png" alt="">
+                <img src="{% static 'img/search.png' %}" alt="">
               </div>
             </header>
             <div class="content-vertical">
               <h4>Зарегистрируйтесь и начните проходить тесты</h4>
               <div class="block">
                 <h4>Регистрация</h4>
-                <form action="http://localhost:8000/api/v1/registration" method="POST" enctype="json">
+                <form action="http://127.0.0.1:8000/api/v1/registration" method="POST" enctype="json">
                     <input type="text" id="first_name" name='"login"' placeholder="Имя">
                     <input type="text" id="last_name" name='"password"' placeholder="Фамилия">
                     <input type="text" id="gender" name='"first_name"' placeholder="Пол">
